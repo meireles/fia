@@ -1,0 +1,25 @@
+---
+title: "Introduction"
+author: "Dudu"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r}
+library(Fia)
+
+tables = Fia::available_fia_tables()
+
+lapply(tables, head)
+
+Fia::download_fia(tables = c("REF_SPECIES", "PLOT"), 
+                  states = c("NC", "MN"),
+                  destination_dir = "data/raw/" , overwrite = FALSE
+                  )
+
+```
