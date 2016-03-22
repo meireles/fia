@@ -1,7 +1,7 @@
 ## ------------------------------------------------------------------------
 library("devtools")
 
-#devtools::install_bitbucket("fia", "meireles")
+devtools::install_bitbucket("meireles/fia", quiet = TRUE)
 
 ## ------------------------------------------------------------------------
 library("fia")
@@ -10,11 +10,9 @@ library("fia")
 fia::fia_base_url()
 
 ## ------------------------------------------------------------------------
-tab = fia::list_available_tables()
+tab = fia::list_available_tables() # returns a list with the tables and states available in the dataset.
 
-# This returns a list with the tables and states available in the dataset.
-# Just for kicks, check our the header of each object in the list
-
+## Just for kicks, check our the header of each object in the list
 lapply(tab, head)
 
 ## ----eval=FALSE----------------------------------------------------------
@@ -23,11 +21,10 @@ lapply(tab, head)
 #  
 #  my_states     = c("NC", "MN") # Chosen from tab$data_states.
 #  my_states_2   = "ALL"         # Or choose all states. Will get files in tab$data_tables_states_combined
-#  my_output_dir = "somewhere/on/my/computer" # Where to save the downloaded files to?
+#  my_output_dir = "~/somewhere/on/my/computer" # Where to save the downloaded files to?
 #  
-#  fia::download_fia_tables(table_names = my_table_names
+#  fia::download_fia_tables(table_names = my_table_names,
 #                           states = my_states,
 #                           destination_dir = my_output_dir,
 #                           list_available_tables = tab)
-#  
 

@@ -78,7 +78,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The easiest way to get the <code>fia</code> package is to install from the bitbuket repository.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;devtools&quot;</span>)
 
-<span class="co">#devtools::install_bitbucket(&quot;fia&quot;, &quot;meireles&quot;)</span></code></pre></div>
+devtools::<span class="kw">install_bitbucket</span>(<span class="st">&quot;meireles/fia&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Now you can just load the package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;fia&quot;</span>)</code></pre></div>
 <p>All of the data lives in the FIADB webpage. You can see the default FIA url, simply run <code>fia_base_url()</code> and check the results.</p>
@@ -90,11 +90,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Plot data: For example, the individual tree data in <code>TREE</code> or geometry of each plot in <code>PLOTGEOM</code>.</li>
 </ul>
 <p>In general, to find out what tables are available in the fia using:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tab =<span class="st"> </span>fia::<span class="kw">list_available_tables</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tab =<span class="st"> </span>fia::<span class="kw">list_available_tables</span>() <span class="co"># returns a list with the tables and states available in the dataset.</span></code></pre></div>
 <pre><code>## Trying to download tables from: &quot;http://apps.fs.fed.us/fiadb-downloads&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># This returns a list with the tables and states available in the dataset.</span>
-<span class="co"># Just for kicks, check our the header of each object in the list</span>
-
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Just for kicks, check our the header of each object in the list
 <span class="kw">lapply</span>(tab, head)</code></pre></div>
 <pre><code>## $reference_table_names
 ## [1] &quot;BEGINEND&quot;               &quot;LICHEN_SPECIES_SUMMARY&quot;
@@ -164,9 +162,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 my_states     =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;NC&quot;</span>, <span class="st">&quot;MN&quot;</span>) <span class="co"># Chosen from tab$data_states.</span>
 my_states_2   =<span class="st"> &quot;ALL&quot;</span>         <span class="co"># Or choose all states. Will get files in tab$data_tables_states_combined</span>
-my_output_dir =<span class="st"> &quot;somewhere/on/my/computer&quot;</span> <span class="co"># Where to save the downloaded files to?</span>
+my_output_dir =<span class="st"> &quot;~/somewhere/on/my/computer&quot;</span> <span class="co"># Where to save the downloaded files to?</span>
 
-fia::<span class="kw">download_fia_tables</span>(<span class="dt">table_names =</span> my_table_names
+fia::<span class="kw">download_fia_tables</span>(<span class="dt">table_names =</span> my_table_names,
                          <span class="dt">states =</span> my_states,
                          <span class="dt">destination_dir =</span> my_output_dir,
                          <span class="dt">list_available_tables =</span> tab)</code></pre></div>
