@@ -1,0 +1,69 @@
+---
+title: "Introduction to fia"
+author: "Jose Eduardo Meireles"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  ---
+  
+  The easiest way to get the `fia` package is to install from the bitbuket repository.
+  
+  ```{r}
+library("devtools")
+
+#devtools::install_bitbucket("fia", "meireles")
+```
+
+Now you can just load the package.
+
+```{r}
+library("fia")
+```
+
+All of the data lives in the FIADB webpage. You can see the default FIA url, simply run `fia_base_url()` and check the results.
+
+```{r}
+fia::fia_base_url()
+```
+
+The FIA dataset is complex and composed of many different tables. There are two main types of tables, holding:
+
+- Reference Data: For instance, species names in the `REF_SPECIES` table.
+- Plot data: For example, the individual tree data in `TREE` or geometry of each plot in `PLOTGEOM`.
+
+In general, to find out what tables are available in the fia using:
+
+```{r}
+tab = fia::list_available_tables()
+
+# This returns a list with the tables and states available in the dataset.
+# Just for kicks, check our the header of each object in the list
+
+lapply(tab, head)
+```
+
+Once you figured what data you want to grab, go ahead and download it with:
+
+```{r eval=FALSE}
+
+my_table_names =  c("REF_SPECIES", "PLOT") # Chosen from tab$reference_table_names and tab$data_table_names
+
+my_states     = c("NC", "MN") # Chosen from tab$data_states.
+my_states_2   = "ALL"         # Or choose all states. Will get files in tab$data_tables_states_combined
+my_output_dir = "~/somewhere/on/my/computer" # Where to save the downloaded files to?
+
+fia::download_fia_tables(table_names = my_table_names,
+                         states = my_states,
+                         destination_dir = my_output_dir,
+                         list_available_tables = tab)
+
+```
+
+
+
+
+
+

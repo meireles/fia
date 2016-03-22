@@ -1,16 +1,14 @@
-Package: Fia
+Package: fia
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
+Title: Basic R interface with the Forest Inventory Service (FIA) dataset.
+Version: 0.0.1
+Author: Jose Eduardo Meireles
+Maintainer: Jose Eduardo Meireles <meireles@umn.edu>
+License: GPL3
 LazyData: TRUE
 Imports:
     RCurl,
     XML,
-    lubridate
 RoxygenNote: 5.0.1
 Suggests: knitr,
     rmarkdown
