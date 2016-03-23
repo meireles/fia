@@ -33,7 +33,7 @@ devtools::use_package("RCurl")
     }
 
     if(any(!table_names_matched)){
-        warning(table_names[!table_names_matched], "not matched!")
+        warning(table_names[!table_names_matched], " will be disconsidered since it did not match any table name")
         table_names = table_names[table_names_matched]
     }
 
@@ -53,20 +53,21 @@ devtools::use_package("RCurl")
     state_names_matched = states_abreviation %in% list_available_tables[["data_states"]]
 
 
-    if(all(!state_names_matched)){         # No state match at all!
-        if(states_abreviation == "ALL"){   # Because the user wants `ALL` states
-            get_states_comb = TRUE
-        } else {                           # Or because the user really messed up
+    if(all(!state_names_matched)){              # No state match at all!
+        if(any(states_abreviation == "ALL")){   # Because the user wants `ALL` states
+            get_states_comb          = TRUE
+            states_abreviation_clean = "ALL"
+        } else {                                # Or because the user really messed up
             stop("None of the `states_abreviation` entries are valid")
         }
-    } else {                               # State matched
+    } else {                                    # State matched
         if(sum(state_names_matched) == length(list_available_tables[["data_states"]])) { # Completely...
-            get_states_comb    = TRUE
-            states_abreviation = "ALL"
-        } else {                           # Or partially
-            states_abreviation = states_abreviation[state_names_matched]
+            get_states_comb          = TRUE
+            states_abreviation_clean = "ALL"
+        } else {                                # Or partially
+            states_abreviation_clean = states_abreviation[state_names_matched]
             if(any(!state_names_matched)){
-                warning(states_abreviation[!state_names_matched], "is not a valid state.")
+                warning(states_abreviation[!state_names_matched], " is not a valid state.")
             }
         }
     }
@@ -82,7 +83,7 @@ devtools::use_package("RCurl")
     if(get_states_comb){
         files_dat = paste(table_names[["dat"]], ".zip", sep = "")
     } else {
-        files_mat = expand.grid(states_abreviation, table_names[["dat"]], stringsAsFactors = FALSE)
+        files_mat = expand.grid(states_abreviation_clean, table_names[["dat"]], stringsAsFactors = FALSE)
         colnames(files_mat) = c("state", "file_name")
 
         files_dat = apply(files_mat, 1, function(x){paste(x, sep = "", collapse = c("_"))})
@@ -135,8 +136,8 @@ download_fia_tables = function(table_names,
     already_exist_d = file_names$file_names_dat$file_name %in% dir_files
 
     if(!overwrite){
-        file_names$file_names_ref           = file_names$file_names_ref[!already_exist_r]
-        file_names$file_names_dat$file_name = file_names$file_names_dat$file_name[!already_exist_d]
+        file_names$file_names_ref = file_names$file_names_ref[!already_exist_r]
+        file_names$file_names_dat = file_names$file_names_dat[!already_exist_d , ]
     }
 
 
@@ -155,7 +156,7 @@ download_fia_tables = function(table_names,
     }
 
     # Dat
-    for(i in seq_along(file_names$file_names_dat)){
+    for(i in seq_along(file_names$file_names_dat$file_name)){
         u = file.path(list_available_tables$url_downloaded_from, file_names$file_names_dat$file_name[i])
         e = RCurl::url.exists(u)
 
