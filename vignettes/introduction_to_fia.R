@@ -1,7 +1,6 @@
-## ------------------------------------------------------------------------
-library("devtools")
-
-devtools::install_bitbucket("meireles/fia", quiet = TRUE)
+## ----eval=FALSE----------------------------------------------------------
+#  library("devtools")
+#  devtools::install_bitbucket("meireles/fia", quiet = TRUE)
 
 ## ------------------------------------------------------------------------
 library("fia")

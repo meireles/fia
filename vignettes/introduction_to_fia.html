@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jose Eduardo Meireles" />
 
-<meta name="date" content="2016-03-22" />
+<meta name="date" content="2016-03-23" />
 
 <title>Introduction to fia</title>
 
@@ -70,14 +70,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title">Introduction to fia</h1>
 <h4 class="author"><em>Jose Eduardo Meireles</em></h4>
-<h4 class="date"><em>2016-03-22</em></h4>
+<h4 class="date"><em>2016-03-23</em></h4>
 
 </div>
 
 
 <p>The easiest way to get the <code>fia</code> package is to install from the bitbuket repository.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;devtools&quot;</span>)
-
 devtools::<span class="kw">install_bitbucket</span>(<span class="st">&quot;meireles/fia&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Now you can just load the package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;fia&quot;</span>)</code></pre></div>
@@ -92,6 +91,7 @@ devtools::<span class="kw">install_bitbucket</span>(<span class="st">&quot;meire
 <p>In general, to find out what tables are available in the fia using:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tab =<span class="st"> </span>fia::<span class="kw">list_available_tables</span>() <span class="co"># returns a list with the tables and states available in the dataset.</span></code></pre></div>
 <pre><code>## Trying to download tables from: &quot;http://apps.fs.fed.us/fiadb-downloads&quot;</code></pre>
+<pre><code>## may take a while...&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Just for kicks, check our the header of each object in the list
 <span class="kw">lapply</span>(tab, head)</code></pre></div>
 <pre><code>## $reference_table_names

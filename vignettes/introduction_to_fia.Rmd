@@ -11,9 +11,8 @@ vignette: >
   
   The easiest way to get the `fia` package is to install from the bitbuket repository.
   
-```{r}
+```{r eval=FALSE}
 library("devtools")
-
 devtools::install_bitbucket("meireles/fia", quiet = TRUE)
 ```
 

@@ -7,7 +7,7 @@ devtools::use_package("XML")
 
 
 ########################################
-# Find which FIA tables are available
+# Find which FIA tables are available online
 ########################################
 
 .get_available_tables = function(url) {
@@ -19,6 +19,7 @@ devtools::use_package("XML")
 
     if(url_exists){
         message("Trying to download tables from: \"", url, "\"")
+        message("may take a while...", "\"")
         raw_tables = XML::readHTMLTable(url, trim = TRUE, as.data.frame = TRUE)
     } else {
         warning(url, "does not exist.", call. = FALSE)
@@ -117,8 +118,7 @@ devtools::use_package("XML")
     ########################################
     x = cbind(n2, x)
 
-    x[["zip_tables"]][s] = paste(x[["state_abbreviation"]][s], ".zip", sep = "")
-
+    x[["zip_tables"]][s]      = paste(x[["state_abbreviation"]][s], ".zip", sep = "")
     x[["state_name"]]         = as.character(x[["state_name"]])
     x[["state_abbreviation"]] = as.character(x[["state_abbreviation"]])
 
@@ -153,8 +153,8 @@ devtools::use_package("XML")
 #' @export
 list_available_tables = function(url = fia::fia_base_url()) {
     tables = .get_available_tables(url = url)
-    tables = .clean_raw_tables(tables)
-    tables = .reshape_clean_tables(tables)
+    tables = .clean_raw_tables(raw_tables = tables)
+    tables = .reshape_clean_tables(clean_tables = tables)
     return(tables)
 }
 
