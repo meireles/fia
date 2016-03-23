@@ -22,10 +22,10 @@ Now you can just load the package.
 library("fia")
 ```
 
-All of the data lives in the FIADB webpage. You can see the default FIA url, simply run `fia_base_url()` and check the results.
+All of the data lives in the FIADB webpage. You can see the default FIA url, simply run `url_fia()` and check the results.
 
 ```{r}
-fia::fia_base_url()
+fia::url_fia()
 ```
 
 The FIA dataset is complex and composed of many different tables. There are two main types of tables, holding:
@@ -44,22 +44,23 @@ lapply(tab, head)
 
 Once you figured what data you want to grab, go ahead and download it with:
 
-```{r eval=FALSE}
+```{r eval=TRUE}
 
-my_table_names =  c("REF_SPECIES", "PLOT") # Chosen from tab$reference_table_names and tab$data_table_names
+# Pick tables to download. Chosen from tab$reference_table_names and tab$data_table_names
+my_table_names =  c("REF_SPECIES",  # a reference table
+                    "PLOT")         # a plot data table
 
-my_states     = c("NC", "MN") # Chosen from tab$data_states.
-my_states_2   = "ALL"         # Or choose all states. Will get files in tab$data_tables_states_combined
-my_output_dir = "~/somewhere/on/my/computer" # Where to save the downloaded files to?
+# Then choose the states you're interest in. See the pssibilities in tab$data_states.
+my_states     = c("NC", "MN")
 
-fia::download_fia_tables(table_names = my_table_names,
-                         states = my_states,
-                         destination_dir = my_output_dir,
-                         list_available_tables = tab)
+# Alternativelly, choose all states in the dataset. Will retrieve data in tab$data_tables_states_combined
+my_states_2   = "ALL"
+
+# You also must provide a directory where all the files will be dumped in.
+my_output_dir = "data_test/fia/"
+
+fia::download_fia_tables(table_names           = my_table_names,
+                         states                = my_states,
+                         destination_dir       = my_output_dir,
+                         list_available_tables = tab)           # the object returned by fia::list_available_tables()
 ```
-
-
-
-
-
-

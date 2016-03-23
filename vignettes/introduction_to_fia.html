@@ -80,8 +80,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 devtools::<span class="kw">install_bitbucket</span>(<span class="st">&quot;meireles/fia&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Now you can just load the package.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;fia&quot;</span>)</code></pre></div>
-<p>All of the data lives in the FIADB webpage. You can see the default FIA url, simply run <code>fia_base_url()</code> and check the results.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fia::<span class="kw">fia_base_url</span>()</code></pre></div>
+<p>All of the data lives in the FIADB webpage. You can see the default FIA url, simply run <code>url_fia()</code> and check the results.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fia::<span class="kw">url_fia</span>()</code></pre></div>
 <pre><code>## [1] &quot;http://apps.fs.fed.us/fiadb-downloads&quot;</code></pre>
 <p>The FIA dataset is complex and composed of many different tables. There are two main types of tables, holding:</p>
 <ul>
@@ -158,16 +158,26 @@ devtools::<span class="kw">install_bitbucket</span>(<span class="st">&quot;meire
 ## 5   2015/12/07    2016/02/05
 ## 6   2015/12/07    2016/02/05</code></pre>
 <p>Once you figured what data you want to grab, go ahead and download it with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_table_names =<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;REF_SPECIES&quot;</span>, <span class="st">&quot;PLOT&quot;</span>) <span class="co"># Chosen from tab$reference_table_names and tab$data_table_names</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pick tables to download. Chosen from tab$reference_table_names and tab$data_table_names</span>
+my_table_names =<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;REF_SPECIES&quot;</span>,  <span class="co"># a reference table</span>
+                    <span class="st">&quot;PLOT&quot;</span>)         <span class="co"># a plot data table</span>
 
-my_states     =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;NC&quot;</span>, <span class="st">&quot;MN&quot;</span>) <span class="co"># Chosen from tab$data_states.</span>
-my_states_2   =<span class="st"> &quot;ALL&quot;</span>         <span class="co"># Or choose all states. Will get files in tab$data_tables_states_combined</span>
-my_output_dir =<span class="st"> &quot;~/somewhere/on/my/computer&quot;</span> <span class="co"># Where to save the downloaded files to?</span>
+<span class="co"># Then choose the states you're interest in. See the pssibilities in tab$data_states.</span>
+my_states     =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;NC&quot;</span>, <span class="st">&quot;MN&quot;</span>)
 
-fia::<span class="kw">download_fia_tables</span>(<span class="dt">table_names =</span> my_table_names,
-                         <span class="dt">states =</span> my_states,
-                         <span class="dt">destination_dir =</span> my_output_dir,
-                         <span class="dt">list_available_tables =</span> tab)</code></pre></div>
+<span class="co"># Alternativelly, choose all states in the dataset. Will retrieve data in tab$data_tables_states_combined</span>
+my_states_2   =<span class="st"> &quot;ALL&quot;</span>
+
+<span class="co"># You also must provide a directory where all the files will be dumped in.</span>
+my_output_dir =<span class="st"> &quot;data_test/fia/&quot;</span>
+
+fia::<span class="kw">download_fia_tables</span>(<span class="dt">table_names           =</span> my_table_names,
+                         <span class="dt">states                =</span> my_states,
+                         <span class="dt">destination_dir       =</span> my_output_dir,
+                         <span class="dt">list_available_tables =</span> tab)           <span class="co"># the object returned by fia::list_available_tables()</span></code></pre></div>
+<pre><code>## Trying to download REF_SPECIES.zip... May take a very long time!</code></pre>
+<pre><code>## Trying to download MN_PLOT.zip... May take a very long time!</code></pre>
+<pre><code>## Trying to download NC_PLOT.zip... May take a very long time!</code></pre>
 
 
 
