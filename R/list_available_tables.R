@@ -151,7 +151,7 @@ devtools::use_package("XML")
 #' @param url The base url for the FIA database. It defaults to the url returned by `fia::fia_base_url()`
 #' @return TODO
 #' @export
-list_available_tables = function(url = fia::fia_base_url()) {
+list_available_tables = function(url = fia::url_fia()) {
     tables = .get_available_tables(url = url)
     tables = .clean_raw_tables(raw_tables = tables)
     tables = .reshape_clean_tables(clean_tables = tables)

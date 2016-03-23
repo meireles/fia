@@ -4,7 +4,7 @@
 \alias{list_available_tables}
 \title{List available tables in the FIA dataset}
 \usage{
-list_available_tables(url = fia::fia_base_url())
+list_available_tables(url = fia::url_fia())
 }
 \arguments{
 \item{url}{The base url for the FIA database. It defaults to the url returned by `fia::fia_base_url()`}

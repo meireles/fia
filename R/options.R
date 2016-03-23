@@ -20,7 +20,7 @@
 
 #' @title Returns FIA base url
 #' @export
-fia_base_url = function(){
+url_fia = function(){
     return(options()$fia.base_url)
 }
 
