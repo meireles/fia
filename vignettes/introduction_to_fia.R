@@ -1,9 +1,9 @@
 ## ----eval=FALSE----------------------------------------------------------
 #  library("devtools")
+#  
 #  devtools::install_bitbucket("meireles/fia", quiet = TRUE)
 
 ## ------------------------------------------------------------------------
-
 # Load the `fia` library
 library("fia")
 
