@@ -145,11 +145,11 @@ devtools::use_package("XML")
 }
 
 
-#' @title List available tables in the FIA dataset
-#' @description Lists the available data tables from FIA.
-#' @details TODO
-#' @param url The base url for the FIA database. It defaults to the url returned by `fia::fia_base_url()`
-#' @return TODO
+#' Lists tables in the FIA dataset
+#'
+#' Returns a list with the available FIA data.
+#'
+#' @param url The base url for the FIA database. Defaults \code{fia::url_fia}
 #' @export
 list_available_tables = function(url = fia::url_fia()) {
     tables = .get_available_tables(url = url)
@@ -157,4 +157,18 @@ list_available_tables = function(url = fia::url_fia()) {
     tables = .reshape_clean_tables(clean_tables = tables)
     return(tables)
 }
+
+#' Print function for `list_available_tables`
+#' @method
+#' @export
+print.list_available_tables = function(x) {
+    d = sapply(x, function(y){
+        ifelse(is.vector(y), paste(length(y), "items"), paste(nrow(y), "rows by", ncol(y), "columns"))
+    })
+
+    m = data.frame(objects = names(d), size = unname(d))
+    cat("Available FIA data:\n")
+    print(m, row.names = F)
+}
+
 
