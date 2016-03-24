@@ -2,20 +2,14 @@
 % Please edit documentation in R/list_available_tables.R
 \name{list_available_tables}
 \alias{list_available_tables}
-\title{List available tables in the FIA dataset}
+\title{Lists tables in the FIA dataset}
 \usage{
 list_available_tables(url = fia::url_fia())
 }
 \arguments{
-\item{url}{The base url for the FIA database. It defaults to the url returned by `fia::fia_base_url()`}
-}
-\value{
-TODO
+\item{url}{The base url for the FIA database. Defaults \code{fia::url_fia}}
 }
 \description{
-Lists the available data tables from FIA.
-}
-\details{
-TODO
+Returns a list with the available FIA data.
 }
 

@@ -77,21 +77,39 @@ devtools::use_package("RCurl")
     ####################################
 
     # Ref
-    files_ref = paste(table_names[["ref"]], ".zip", sep = "")
 
-    # Dat
-    if(get_states_comb){
-        files_dat = paste(table_names[["dat"]], ".zip", sep = "")
+    if(length(table_names[["ref"]]) == 0){
+        files_ref = NULL
     } else {
-        files_mat = expand.grid(states_abreviation_clean, table_names[["dat"]], stringsAsFactors = FALSE)
-        colnames(files_mat) = c("state", "file_name")
-
-        files_dat = apply(files_mat, 1, function(x){paste(x, sep = "", collapse = c("_"))})
-        files_dat = paste(files_dat, ".zip", sep = "")
-        files_mat[ , "file_name"] = files_dat
+        files_ref = paste(table_names[["ref"]], ".zip", sep = "")
     }
 
-    files_mat = files_mat[ order(files_mat[ , "state"]), ]
+    # Dat
+
+    if(length(table_names[["dat"]]) == 0){
+        files_mat = NULL
+    } else {
+
+        #files_mat = as.data.frame(matrix(NA, 0, 2, dimnames = list(NULL, c("state", "file_name"))))
+
+        if(get_states_comb){
+
+            files_dat = paste(table_names[["dat"]], ".zip", sep = "")
+            files_mat = data.frame(state     = rep(states_abreviation_clean, length(files_dat)),
+                                   file_name = files_dat,
+                                   stringsAsFactors = FALSE)
+
+        } else {
+            files_mat = expand.grid(states_abreviation_clean, table_names[["dat"]], stringsAsFactors = FALSE)
+            colnames(files_mat) = c("state", "file_name")
+
+            files_dat = apply(files_mat, 1, function(x){paste(x, sep = "", collapse = c("_"))})
+            files_dat = paste(files_dat, ".zip", sep = "")
+            files_mat[ , "file_name"] = files_dat
+        }
+
+        files_mat = files_mat[ order(files_mat[ , "state"]), ]
+    }
 
     out = list(file_names_ref = files_ref,
                file_names_dat = files_mat)
@@ -124,7 +142,6 @@ download_fia_tables = function(table_names,
     states     = unique(file_names$file_names_dat$state)
 
     dir.create(destination_dir, recursive = TRUE)
-
 
     if(dir_by_sate) {
         for(i in states)
@@ -160,17 +177,20 @@ download_fia_tables = function(table_names,
         u = file.path(list_available_tables$url_downloaded_from, file_names$file_names_dat$file_name[i])
         e = RCurl::url.exists(u)
 
-        if(dir_by_sate)
+        if(dir_by_sate){
             f = file.path(destination_dir, file_names$file_names_dat$state[i], file_names$file_names_dat$file_name[i])
-        else
+        } else{
             f = file.path(destination_dir, file_names$file_names_dat$file_name[i])
+        }
+
 
         if(e){
             message("Trying to download ", file_names$file_names_dat$file_name[i], "... May take a very long time!\n")
             download.file(u, f)
-        }
-        else
+        } else{
             warning(file_names$file_names_dat$file_name[i], " could not be downloaded", call. = FALSE)
+        }
+
     }
 
 }
