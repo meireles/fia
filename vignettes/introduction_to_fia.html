@@ -11,7 +11,6 @@
 
 <meta name="author" content="Jose Eduardo Meireles" />
 
-<meta name="date" content="2016-03-24" />
 
 <title>Introduction to fia</title>
 
@@ -70,40 +69,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title">Introduction to fia</h1>
 <h4 class="author"><em>Jose Eduardo Meireles</em></h4>
-<h4 class="date"><em>2016-03-24</em></h4>
 
 </div>
 
 
-<div id="installation" class="section level2">
-<h2>Installation</h2>
+<div id="installation" class="section level3">
+<h3>Installation</h3>
 <p>The easiest way to get the <code>fia</code> package is to install from the bitbuket repository.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;devtools&quot;</span>)
 
 devtools::<span class="kw">install_bitbucket</span>(<span class="st">&quot;meireles/fia&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2>Usage</h2>
-<p>For now, the main goal of the <code>fia</code> package is to programatically download FIA data, which lives lives in the FIADB webpage. Use <code>url_fia()</code> to see the default FIA url if you’re curious.</p>
+<div id="usage" class="section level3">
+<h3>Usage</h3>
+<p>The main goal of the <code>fia</code> package is to programatically download FIA data, which lives lives in the FIADB webpage. Use <code>url_fia()</code> to see the default FIA url if you’re curious.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the `fia` library</span>
 <span class="kw">library</span>(<span class="st">&quot;fia&quot;</span>)
 
-<span class="co"># And check out the packages' default FIA url using</span>
+<span class="co"># Check out the packages' default FIA url</span>
 fia::<span class="kw">url_fia</span>()</code></pre></div>
 <pre><code>## [1] &quot;http://apps.fs.fed.us/fiadb-downloads&quot;</code></pre>
+</div>
 <div id="finding-out-what-data-is-available" class="section level3">
 <h3>Finding out what data is available</h3>
-<p>The FIA dataset is complex and composed of many different tables. There are two main types of tables:</p>
-<ul>
-<li><p>Reference: These tables are prefixed <code>REF_</code>. They hold. as the name says, reference data such as species names (<code>REF_SPECIES</code>) and forest types (<code>REF_FOREST_TYPE</code>).</p></li>
-<li><p>Data: These are tables with plot data (collected at the sites). For example, the individual tree data in <code>TREE</code> or geometry of each plot in <code>PLOTGEOM</code>. Individual tables can be obtained at the state level or for all states together.</p></li>
-</ul>
-<p>To find out what tables are available in the FIA, use <code>list_available_tables</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Rentrieve table names from the web</span>
+<p>The FIA dataset is complex and composed of many different tables. To find out which tables are available in the FIA, use <code>list_available_tables</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Retrieve table names from the web</span>
 tab =<span class="st"> </span>fia::<span class="kw">list_available_tables</span>()</code></pre></div>
 <pre><code>## Trying to download tables from: &quot;http://apps.fs.fed.us/fiadb-downloads&quot;</code></pre>
 <pre><code>## may take a while...&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Kinds of tables available...</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Kinds of tables available.</span>
 <span class="kw">print</span>(tab)</code></pre></div>
 <pre><code>## Available FIA data:
 ##                      objects                   size
@@ -114,19 +108,28 @@ tab =<span class="st"> </span>fia::<span class="kw">list_available_tables</span>
 ##             reference_tables   19 rows by 5 columns
 ##         data_tables_by_state 2970 rows by 7 columns
 ##  data_tables_states_combined   54 rows by 5 columns</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># So you can ckeck out the names of reference tables</span>
+<p>There are two main types of tables:</p>
+<ul>
+<li><p><strong>Reference:</strong> Prefixed <code>REF</code>. They hold, as the name says, reference data such as species names (<code>REF_SPECIES</code>) and forest types (<code>REF_FOREST_TYPE</code>). You ’ll find them in <code>reference_table_names</code>.</p></li>
+<li><p>**<a href="Data:**" class="uri">Data:**</a> These are tables with plot data (collected at the sites). For example, the individual tree data in <code>TREE</code> or geometry of each plot in <code>PLOTGEOM</code>. You’ll find their names inside <code>data_table_names</code>. Note that these individual tables can be obtained:</p>
+<ul>
+<li><p>At the <strong>state level:</strong> The state abbreviations are found inside <code>data_states</code>. A detailed list of state level datasets is given in <code>data_tables_by_state</code></p></li>
+<li><p>For <strong>all states combined:</strong> The detailed list of data combined for all states is given inside <code>data_tables_states_combined</code>.</p></li>
+</ul></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check out the names of reference tables</span>
 <span class="kw">head</span>(tab$reference_table_names)</code></pre></div>
 <pre><code>## [1] &quot;BEGINEND&quot;               &quot;LICHEN_SPECIES_SUMMARY&quot;
 ## [3] &quot;REF_CITATION&quot;           &quot;REF_FIADB_VERSION&quot;     
 ## [5] &quot;REF_FOREST_TYPE&quot;        &quot;REF_FOREST_TYPE_GROUP&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Or plot level data tables and state names</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># or of plot level data tables and state names</span>
 <span class="kw">head</span>(tab$data_table_names)</code></pre></div>
 <pre><code>## [1] &quot;BOUNDARY&quot;                &quot;COND&quot;                   
 ## [3] &quot;COND_DWM_CALC&quot;           &quot;COUNTY&quot;                 
 ## [5] &quot;DWM_COARSE_WOODY_DEBRIS&quot; &quot;DWM_DUFF_LITTER_FUEL&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(tab$data_states)</code></pre></div>
 <pre><code>## [1] &quot;AL&quot; &quot;AK&quot; &quot;AZ&quot; &quot;AR&quot; &quot;CA&quot; &quot;CO&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># As well as many the raw-ish matrices with table file names, modicication dates, etc...</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># You can also get a detailed desrciption of the data available in the FIA, e.g.</span>
 <span class="kw">head</span>(tab$reference_tables)</code></pre></div>
 <pre><code>##                   zip_tables                 csv_tables n_records
 ## 1               BEGINEND.zip               BEGINEND.csv         2
@@ -145,32 +148,32 @@ tab =<span class="st"> </span>fia::<span class="kw">list_available_tables</span>
 </div>
 <div id="downloading-fia-tables" class="section level3">
 <h3>Downloading FIA tables</h3>
-<p>Once you figured what data you want to grab, all you have to do is download it:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pick tables to download. Chosen in this case from tab$reference_table_names and tab$data_table_names</span>
+<p>Once you figured out what data you want to grab, all you have to do is download it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pick tables to download.</span>
+<span class="co"># Chosen from tab$reference_table_names and tab$data_table_names</span>
 my_table_names =<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;REF_SPECIES&quot;</span>,  <span class="co"># a reference table</span>
                     <span class="st">&quot;PLOT&quot;</span>)         <span class="co"># a plot data table</span>
 
-<span class="co"># Then choose the states you're interest in. See the pssibilities in tab$data_states.</span>
+<span class="co"># Pick states of interest.</span>
+<span class="co"># See the pssibilities in tab$data_states.</span>
 my_states     =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;NC&quot;</span>, <span class="st">&quot;MN&quot;</span>)
 
-<span class="co"># Alternativelly, choose all states in the dataset. Will retrieve data in tab$data_tables_states_combined</span>
+<span class="co"># Alternativelly, choose all states in the dataset.</span>
+<span class="co"># Thus will retrieve data in tab$data_tables_states_combined</span>
 my_states_2   =<span class="st"> &quot;ALL&quot;</span>
 
-<span class="co"># You also must provide a directory where all the files will be dumped in.</span>
+<span class="co"># You also must provide the directory where the files will be dumped in.</span>
 my_output_dir =<span class="st"> &quot;data_test/fia/&quot;</span>
 
-<span class="co"># Start download, will probably take a while...</span>
+<span class="co"># Start download!</span>
+<span class="co">#Wwill probably take a while...</span>
 fia::<span class="kw">download_fia_tables</span>(<span class="dt">table_names           =</span> my_table_names,
-                         <span class="dt">states                =</span> my_states,
+                         <span class="dt">states                =</span> my_states,      <span class="co"># could have been `my_states_2`</span>
                          <span class="dt">destination_dir       =</span> my_output_dir,
-                         <span class="dt">list_available_tables =</span> tab)           <span class="co"># the object returned by fia::list_available_tables()</span></code></pre></div>
-<pre><code>## Warning in dir.create(destination_dir, recursive = TRUE): 'data_test/fia'
-## already exists</code></pre>
-<pre><code>## Warning in dir.create(file.path(destination_dir, i)): 'data_test/fia//MN'
-## already exists</code></pre>
-<pre><code>## Warning in dir.create(file.path(destination_dir, i)): 'data_test/fia//NC'
-## already exists</code></pre>
-</div>
+                         <span class="dt">list_available_tables =</span> tab)            <span class="co"># the object returned by `list_available_tables()`</span></code></pre></div>
+<pre><code>## Trying to download REF_SPECIES.zip... May take a very long time!</code></pre>
+<pre><code>## Trying to download MN_PLOT.zip... May take a very long time!</code></pre>
+<pre><code>## Trying to download NC_PLOT.zip... May take a very long time!</code></pre>
 </div>
 
 

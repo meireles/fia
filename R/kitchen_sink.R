@@ -2,7 +2,6 @@
 # Initialization
 ################################################################################
 
-#' Sets default options on load
 .onLoad = function(libname, pkgname) {
     op = options()
 
@@ -20,7 +19,6 @@
 ################################################################################
 # Readme setup
 ################################################################################
-
 
 file.rename("vignettes/introduction_to_fia.md",
             "README.md")

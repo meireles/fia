@@ -1,8 +1,7 @@
 # Introduction to fia
 Jose Eduardo Meireles  
-`r Sys.Date()`  
 
-## Installation
+### Installation
  
 The easiest way to get the `fia` package is to install from the bitbuket repository.
 
@@ -13,16 +12,16 @@ library("devtools")
 devtools::install_bitbucket("meireles/fia", quiet = TRUE)
 ```
 
-## Usage
+### Usage
 
-For now, the main goal of the `fia` package is to programatically download FIA data, which lives lives in the FIADB webpage. Use `url_fia()` to see the default FIA url if you're curious.
+The main goal of the `fia` package is to programatically download FIA data, which lives lives in the FIADB webpage. Use `url_fia()` to see the default FIA url if you're curious.
 
 
 ```r
 # Load the `fia` library
 library("fia")
 
-# And check out the packages' default FIA url using
+# Check out the packages' default FIA url
 fia::url_fia()
 ```
 
@@ -32,17 +31,11 @@ fia::url_fia()
 
 ### Finding out what data is available
 
-The FIA dataset is complex and composed of many different tables. There are two main types of tables:
-
-- Reference: These tables are prefixed `REF_`. They hold. as the name says, reference data such as species names (`REF_SPECIES`) and forest types (`REF_FOREST_TYPE`).
-
-- Data: These are tables with plot data (collected at the sites). For example, the individual tree data in `TREE` or geometry of each plot in `PLOTGEOM`. Individual tables can be obtained at the state level or for all states together.
-
-To find out what tables are available in the FIA, use `list_available_tables`. 
+The FIA dataset is complex and composed of many different tables. To find out which tables are available in the FIA, use `list_available_tables`.
 
 
 ```r
-# Rentrieve table names from the web
+# Retrieve table names from the web
 tab = fia::list_available_tables()
 ```
 
@@ -55,7 +48,7 @@ tab = fia::list_available_tables()
 ```
 
 ```r
-# Kinds of tables available...
+# Kinds of tables available.
 print(tab)
 ```
 
@@ -71,8 +64,20 @@ print(tab)
 ##  data_tables_states_combined   54 rows by 5 columns
 ```
 
+There are two main types of tables:
+
++ **Reference:** Prefixed `REF`. They hold, as the name says, reference data such as species names (`REF_SPECIES`) and forest types (`REF_FOREST_TYPE`). You 'll find them in `reference_table_names`.
+
++ **Data:** These are tables with plot data (collected at the sites). For example, the individual tree data in `TREE` or geometry of each plot in `PLOTGEOM`. You'll find their names inside `data_table_names`. Note that these individual tables can be obtained:
+
+    + At the **state level:** The state abbreviations are found inside `data_states`. A detailed list of state level datasets is given in `data_tables_by_state`
+    
+    + For **all states combined:** The detailed list of data combined for all states is given inside `data_tables_states_combined`. 
+
+
+
 ```r
-# So you can ckeck out the names of reference tables
+# Check out the names of reference tables
 head(tab$reference_table_names)
 ```
 
@@ -83,7 +88,7 @@ head(tab$reference_table_names)
 ```
 
 ```r
-# Or plot level data tables and state names
+# or of plot level data tables and state names
 head(tab$data_table_names)
 ```
 
@@ -102,7 +107,7 @@ head(tab$data_states)
 ```
 
 ```r
-# As well as many the raw-ish matrices with table file names, modicication dates, etc...
+# You can also get a detailed desrciption of the data available in the FIA, e.g.
 head(tab$reference_tables)
 ```
 
@@ -126,41 +131,42 @@ head(tab$reference_tables)
 
 ### Downloading FIA tables
 
-Once you figured what data you want to grab, all you have to do is download it:
+Once you figured out what data you want to grab, all you have to do is download it:
 
 
 ```r
-# Pick tables to download. Chosen in this case from tab$reference_table_names and tab$data_table_names
+# Pick tables to download.
+# Chosen from tab$reference_table_names and tab$data_table_names
 my_table_names =  c("REF_SPECIES",  # a reference table
                     "PLOT")         # a plot data table
 
-# Then choose the states you're interest in. See the pssibilities in tab$data_states.
+# Pick states of interest.
+# See the pssibilities in tab$data_states.
 my_states     = c("NC", "MN")
 
-# Alternativelly, choose all states in the dataset. Will retrieve data in tab$data_tables_states_combined
+# Alternativelly, choose all states in the dataset.
+# Thus will retrieve data in tab$data_tables_states_combined
 my_states_2   = "ALL"
 
-# You also must provide a directory where all the files will be dumped in.
+# You also must provide the directory where the files will be dumped in.
 my_output_dir = "data_test/fia/"
 
-# Start download, will probably take a while...
+# Start download!
+#Wwill probably take a while...
 fia::download_fia_tables(table_names           = my_table_names,
-                         states                = my_states,
+                         states                = my_states,      # could have been `my_states_2`
                          destination_dir       = my_output_dir,
-                         list_available_tables = tab)           # the object returned by fia::list_available_tables()
+                         list_available_tables = tab)            # the object returned by `list_available_tables()`
 ```
 
 ```
-## Warning in dir.create(destination_dir, recursive = TRUE): 'data_test/fia'
-## already exists
+## Trying to download REF_SPECIES.zip... May take a very long time!
 ```
 
 ```
-## Warning in dir.create(file.path(destination_dir, i)): 'data_test/fia//MN'
-## already exists
+## Trying to download MN_PLOT.zip... May take a very long time!
 ```
 
 ```
-## Warning in dir.create(file.path(destination_dir, i)): 'data_test/fia//NC'
-## already exists
+## Trying to download NC_PLOT.zip... May take a very long time!
 ```
