@@ -1,18 +1,19 @@
 Package: fia
 Type: Package
-Title: Basic R interface with the Forest Inventory Service (FIA) dataset.
+Title: Interface with the Forest Inventory Service
 Version: 0.0.1
+Description: Basic R interface with the Forest Inventory Service (FIA) dataset.
 Author: Jose Eduardo Meireles
 Maintainer: Jose Eduardo Meireles <meireles@umn.edu>
-License: GPL3
+License: GPL-3
 LazyData: TRUE
 Encoding: UTF-8
 Depends:
     R (>= 3.3.2)
 Imports:
-    RCurl,
-    XML,
+    RCurl (>= 1.95),
+    XML (>= 3.98)
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
+Suggests: knitr (>= 1.15),
+    rmarkdown (>= 1.3)
 VignetteBuilder: knitr
