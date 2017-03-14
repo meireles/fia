@@ -166,8 +166,9 @@ list_available_tables = function(url = fia::url_fia() ){
 #' Print function for `list_available_tables`
 #'
 #' @param x list_available_tables object
+#' @param ... does nothing
 #' @export
-print.list_available_tables = function(x) {
+print.list_available_tables = function(x, ...) {
     d = sapply(x, function(y){
         ifelse(is.vector(y), paste(length(y), "items"), paste(nrow(y), "rows by", ncol(y), "columns"))
     })
