@@ -9,7 +9,9 @@ list_available_tables(url = fia::url_fia())
 \arguments{
 \item{url}{The base url for the FIA database. Defaults \code{fia::url_fia}}
 }
+\value{
+tables
+}
 \description{
 Returns a list with the available FIA data.
 }
-

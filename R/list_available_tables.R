@@ -5,7 +5,6 @@
 devtools::use_package("RCurl")
 devtools::use_package("XML")
 
-
 ########################################
 # Find which FIA tables are available online
 ########################################
@@ -20,7 +19,10 @@ devtools::use_package("XML")
     if(url_exists){
         message("Trying to download tables from: \"", url, "\"")
         message("may take a while...", "\"")
-        raw_tables = XML::readHTMLTable(url, trim = TRUE, as.data.frame = TRUE)
+        html = RCurl::getURL(url)
+        raw_tables = XML::readHTMLTable(RCurl::getURL(url),
+                                        trim = TRUE,
+                                        as.data.frame = TRUE)
     } else {
         warning(url, "does not exist.", call. = FALSE)
     }
@@ -148,18 +150,22 @@ devtools::use_package("XML")
 #' Lists tables in the FIA dataset
 #'
 #' Returns a list with the available FIA data.
-#'
 #' @param url The base url for the FIA database. Defaults \code{fia::url_fia}
+#' @return tables
 #' @export
-list_available_tables = function(url = fia::url_fia()) {
+list_available_tables = function(url = fia::url_fia() ){
     tables = .get_available_tables(url = url)
+    print("got tables")
     tables = .clean_raw_tables(raw_tables = tables)
+    print("cleaned tables")
     tables = .reshape_clean_tables(clean_tables = tables)
+    print("reshaped tables")
     return(tables)
 }
 
 #' Print function for `list_available_tables`
-#' @method
+#'
+#' @param x list_available_tables object
 #' @export
 print.list_available_tables = function(x) {
     d = sapply(x, function(y){

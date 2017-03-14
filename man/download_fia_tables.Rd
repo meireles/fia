@@ -5,16 +5,18 @@
 \title{Downloads fia tables to dir}
 \usage{
 download_fia_tables(table_names, states, destination_dir, list_available_tables,
-  dir_by_sate = TRUE, overwrite = FALSE)
+  table_format = "csv", dir_by_sate = TRUE, overwrite = TRUE)
 }
 \arguments{
 \item{table_names}{Choose which tables to download}
 
 \item{states}{Download data for which states. If "all", `data_tables_states_combined` will be downloaded}
 
-\item{destination_dir}{Path to directory where the data .zip files will be saved.}
+\item{destination_dir}{Path to directory where the data files will be saved.}
 
 \item{list_available_tables}{Object returned from `fia::list_available_tables`}
+
+\item{table_format}{"csv" (default) or "zip"}
 
 \item{dir_by_sate}{Save data for each state in a separate directory? Only works if states != `all` and for non-reference tables.}
 
@@ -26,4 +28,3 @@ Nothing. Side effect of saving files to a directory
 \description{
 Downloads fia tables to dir
 }
-

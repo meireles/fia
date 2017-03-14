@@ -5,7 +5,7 @@
 .onLoad = function(libname, pkgname) {
     op = options()
 
-    op.fia = list(fia.base_url = "http://apps.fs.fed.us/fiadb-downloads")
+    op.fia = list(fia.base_url = "https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html")
 
     toset = !(names(op.fia) %in% names(op))
 
@@ -20,9 +20,7 @@
 # Readme setup
 ################################################################################
 
-file.rename("vignettes/introduction_to_fia.md",
-            "README.md")
-
+file.copy("vignettes/introduction_to_fia.md", "README.md", overwrite = TRUE)
 
 ################################################################################
 # Global-ish variable
@@ -36,7 +34,3 @@ file.rename("vignettes/introduction_to_fia.md",
 url_fia = function(){
     return(options()$fia.base_url)
 }
-
-
-
-

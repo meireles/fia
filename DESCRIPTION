@@ -6,10 +6,13 @@ Author: Jose Eduardo Meireles
 Maintainer: Jose Eduardo Meireles <meireles@umn.edu>
 License: GPL3
 LazyData: TRUE
+Encoding: UTF-8
+Depends:
+    R (>= 3.3.2)
 Imports:
     RCurl,
     XML,
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr

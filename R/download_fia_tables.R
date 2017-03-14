@@ -12,7 +12,8 @@ devtools::use_package("RCurl")
 
 .make_filename_fia_tables = function(table_names,
                                      states_abreviation,
-                                     list_available_tables) {
+                                     list_available_tables,
+                                     table_format = c("zip", "csv")) {
 
     # Is `list_available_tables` of the right class?
     if(class(list_available_tables) != "list_available_tables") {
@@ -81,7 +82,7 @@ devtools::use_package("RCurl")
     if(length(table_names[["ref"]]) == 0){
         files_ref = NULL
     } else {
-        files_ref = paste(table_names[["ref"]], ".zip", sep = "")
+        files_ref = paste(table_names[["ref"]], ".", table_format, sep = "")
     }
 
     # Dat
@@ -94,7 +95,7 @@ devtools::use_package("RCurl")
 
         if(get_states_comb){
 
-            files_dat = paste(table_names[["dat"]], ".zip", sep = "")
+            files_dat = paste(table_names[["dat"]], ".", table_format, sep = "")
             files_mat = data.frame(state     = rep(states_abreviation_clean, length(files_dat)),
                                    file_name = files_dat,
                                    stringsAsFactors = FALSE)
@@ -104,7 +105,7 @@ devtools::use_package("RCurl")
             colnames(files_mat) = c("state", "file_name")
 
             files_dat = apply(files_mat, 1, function(x){paste(x, sep = "", collapse = c("_"))})
-            files_dat = paste(files_dat, ".zip", sep = "")
+            files_dat = paste(files_dat, ".", table_format, sep = "")
             files_mat[ , "file_name"] = files_dat
         }
 
@@ -124,8 +125,9 @@ devtools::use_package("RCurl")
 #'
 #' @param table_names Choose which tables to download
 #' @param states Download data for which states. If "all", `data_tables_states_combined` will be downloaded
-#' @param destination_dir Path to directory where the data .zip files will be saved.
+#' @param destination_dir Path to directory where the data files will be saved.
 #' @param list_available_tables Object returned from `fia::list_available_tables`
+#' @param table_format "csv" (default) or "zip"
 #' @param dir_by_sate Save data for each state in a separate directory? Only works if states != `all` and for non-reference tables.
 #' @param overwrite Should datasets be overwritten?
 #'
@@ -135,10 +137,14 @@ download_fia_tables = function(table_names,
                                states,
                                destination_dir,
                                list_available_tables,
+                               table_format = "csv",
                                dir_by_sate = TRUE,
-                               overwrite   = FALSE) {
+                               overwrite   = TRUE) {
 
-    file_names = .make_filename_fia_tables(table_names, states, list_available_tables)
+    file_names = .make_filename_fia_tables(table_names,
+                                           states,
+                                           list_available_tables,
+                                           table_format = table_format)
     states     = unique(file_names$file_names_dat$state)
 
     dir.create(destination_dir, recursive = TRUE)
@@ -157,10 +163,11 @@ download_fia_tables = function(table_names,
         file_names$file_names_dat = file_names$file_names_dat[!already_exist_d , ]
     }
 
+    h = gsub("/datamart_csv.html", "", list_available_tables$url_downloaded_from)
 
     # Ref
     for(i in seq_along(file_names$file_names_ref)){
-        u = file.path(list_available_tables$url_downloaded_from, file_names$file_names_ref[i])
+        u = file.path(h, file_names$file_names_ref[i])
         e = RCurl::url.exists(u)
         f = file.path(destination_dir, file_names$file_names_ref[i])
 
@@ -174,7 +181,7 @@ download_fia_tables = function(table_names,
 
     # Dat
     for(i in seq_along(file_names$file_names_dat$file_name)){
-        u = file.path(list_available_tables$url_downloaded_from, file_names$file_names_dat$file_name[i])
+        u = file.path(h, file_names$file_names_dat$file_name[i])
         e = RCurl::url.exists(u)
 
         if(dir_by_sate){
