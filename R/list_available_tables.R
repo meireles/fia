@@ -19,7 +19,11 @@ devtools::use_package("XML")
     if(url_exists){
         message("Trying to download tables from: \"", url, "\"")
         message("may take a while...", "\"")
-        html = RCurl::getURL(url)
+
+        ## FIXME
+        ## This obj isn't being used. Need to figure out what this was about.
+        # html = RCurl::getURL(url)
+
         raw_tables = XML::readHTMLTable(RCurl::getURL(url),
                                         trim = TRUE,
                                         as.data.frame = TRUE)
@@ -177,5 +181,3 @@ print.list_available_tables = function(x, ...) {
     cat("Available FIA data:\n")
     print(m, row.names = F)
 }
-
-
