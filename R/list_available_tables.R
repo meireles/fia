@@ -1,6 +1,3 @@
-################################################################################
-#
-################################################################################
 
 devtools::use_package("RCurl")
 devtools::use_package("XML")
@@ -17,8 +14,8 @@ devtools::use_package("XML")
     url_exists  = RCurl::url.exists(url)
 
     if(url_exists){
-        message("Trying to download tables from: \"", url, "\"")
-        message("may take a while...", "\"")
+        message("Trying to download tables from:")
+        message("\"", url, "\"")
 
         ## FIXME
         ## This obj isn't being used. Need to figure out what this was about.
@@ -159,12 +156,10 @@ devtools::use_package("XML")
 #' @export
 list_available_tables = function(url = fia::url_fia() ){
     tables = .get_available_tables(url = url)
-    print("got tables")
     tables = .clean_raw_tables(raw_tables = tables)
-    print("cleaned tables")
     tables = .reshape_clean_tables(clean_tables = tables)
-    print("reshaped tables")
     return(tables)
+
 }
 
 #' Print function for `list_available_tables`

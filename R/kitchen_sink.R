@@ -3,8 +3,7 @@
 ################################################################################
 
 .onLoad = function(libname, pkgname) {
-    op = options()
-
+    op     = options()
     op.fia = list(fia.base_url = "https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html")
 
     toset = !(names(op.fia) %in% names(op))
@@ -28,7 +27,10 @@ file.copy("vignettes/introduction_to_fia.md", "README.md", overwrite = TRUE)
 
 #' FIA base url
 #'
-#' Returns the url for the FIA database
+#' Default URL for the FIA database
+#'
+#' @return string with fia url
+#' @author Jose Eduardo Meireles
 #'
 #' @export
 url_fia = function(){
