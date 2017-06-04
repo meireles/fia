@@ -28,19 +28,18 @@ head(tab$data_table_names)
 head(tab$reference_tables)
 
 ## ----eval=TRUE-----------------------------------------------------------
-
 # Pick tables to download
 # Chosen from tab$reference_table_names and tab$data_table_names
-my_table_names =  c("REF_SPECIES",  # a reference table
-                    "PLOT")         # a plot data table
+my_table_names = c("REF_SPECIES",  # a reference table
+                   "PLOT")         # a plot data table
 
 # Pick states of interest
 # See the pssibilities in tab$data_states
-my_states     = c("NC", "MN")
+my_states = c("NC", "MN")
 
 # Alternativelly, choose all states in the dataset
 # Thus will retrieve data in tab$data_tables_states_combined
-my_states_2   = "ALL"
+my_states_2 = "ALL"
 
 # You also must provide the directory where the files will be dumped in.
 my_output_dir = "data_test/fia"
@@ -51,5 +50,6 @@ fia::download_fia_tables(table_names           = my_table_names,
                          states                = my_states,
                          destination_dir       = my_output_dir,
                          list_available_tables = tab, # returned by `list_available_tables()`
-                         table_format          = "zip")
+                         table_format          = "zip",
+                         overwrite             = TRUE)
 

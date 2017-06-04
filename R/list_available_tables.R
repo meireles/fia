@@ -142,9 +142,7 @@ devtools::use_package("XML")
     out$data_tables_by_state        = x
     out$data_tables_states_combined = clean_tables[["tables_states_combined"]]
 
-    class(out) = "list_available_tables"
-
-    return(out)
+    out
 }
 
 
@@ -158,8 +156,9 @@ list_available_tables = function(url = fia::url_fia() ){
     tables = .get_available_tables(url = url)
     tables = .clean_raw_tables(raw_tables = tables)
     tables = .reshape_clean_tables(clean_tables = tables)
-    return(tables)
 
+    class(tables) = "list_available_tables"
+    tables
 }
 
 #' Print function for `list_available_tables`

@@ -4,7 +4,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 
@@ -72,6 +72,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
+<p>The only goal of the <code>fia</code> package is to programatically download FIA data.</p>
 <div id="installation" class="section level3">
 <h3>Installation</h3>
 <p>The easiest way to get the <code>fia</code> package is to install from the github repository.</p>
@@ -80,7 +81,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 </div>
 <div id="usage" class="section level3">
 <h3>Usage</h3>
-<p>The main goal of the <code>fia</code> package is to programatically download FIA data, which lives lives in the FIADB webpage. Use <code>url_fia()</code> to see the default FIA url.</p>
+<p>The fia data lives lives in the FIADB. You can see the default database url using <code>url_fia()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the `fia` library</span>
 <span class="kw">library</span>(<span class="st">&quot;fia&quot;</span>)
 
@@ -93,11 +94,8 @@ fia<span class="op">::</span><span class="kw">url_fia</span>()</code></pre></div
 <p>The FIA dataset is complex and composed of many different tables. To find out which tables are available in the FIA, use <code>list_available_tables</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Retrieve table names from the web</span>
 tab =<span class="st"> </span>fia<span class="op">::</span><span class="kw">list_available_tables</span>()</code></pre></div>
-<pre><code>## Trying to download tables from: &quot;https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html&quot;</code></pre>
-<pre><code>## may take a while...&quot;</code></pre>
-<pre><code>## [1] &quot;got tables&quot;
-## [1] &quot;cleaned tables&quot;
-## [1] &quot;reshaped tables&quot;</code></pre>
+<pre><code>## Trying to download tables from:</code></pre>
+<pre><code>## &quot;https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Types of tables available.</span>
 <span class="kw">print</span>(tab)</code></pre></div>
 <pre><code>## Available FIA data:
@@ -152,16 +150,16 @@ tab =<span class="st"> </span>fia<span class="op">::</span><span class="kw">list
 <p>Once you figured out what data you want to grab, all you have to do is download it:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Pick tables to download</span>
 <span class="co"># Chosen from tab$reference_table_names and tab$data_table_names</span>
-my_table_names =<span class="st">  </span><span class="kw">c</span>(<span class="st">&quot;REF_SPECIES&quot;</span>,  <span class="co"># a reference table</span>
-                    <span class="st">&quot;PLOT&quot;</span>)         <span class="co"># a plot data table</span>
+my_table_names =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;REF_SPECIES&quot;</span>,  <span class="co"># a reference table</span>
+                   <span class="st">&quot;PLOT&quot;</span>)         <span class="co"># a plot data table</span>
 
 <span class="co"># Pick states of interest</span>
 <span class="co"># See the pssibilities in tab$data_states</span>
-my_states     =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;NC&quot;</span>, <span class="st">&quot;MN&quot;</span>)
+my_states =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;NC&quot;</span>, <span class="st">&quot;MN&quot;</span>)
 
 <span class="co"># Alternativelly, choose all states in the dataset</span>
 <span class="co"># Thus will retrieve data in tab$data_tables_states_combined</span>
-my_states_<span class="dv">2</span>   =<span class="st"> &quot;ALL&quot;</span>
+my_states_<span class="dv">2</span> =<span class="st"> &quot;ALL&quot;</span>
 
 <span class="co"># You also must provide the directory where the files will be dumped in.</span>
 my_output_dir =<span class="st"> &quot;data_test/fia&quot;</span>
@@ -172,7 +170,8 @@ fia<span class="op">::</span><span class="kw">download_fia_tables</span>(<span c
                          <span class="dt">states                =</span> my_states,
                          <span class="dt">destination_dir       =</span> my_output_dir,
                          <span class="dt">list_available_tables =</span> tab, <span class="co"># returned by `list_available_tables()`</span>
-                         <span class="dt">table_format          =</span> <span class="st">&quot;zip&quot;</span>)</code></pre></div>
+                         <span class="dt">table_format          =</span> <span class="st">&quot;zip&quot;</span>,
+                         <span class="dt">overwrite             =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Trying to download REF_SPECIES.zip... May take a very long time!</code></pre>
 <pre><code>## Trying to download MN_PLOT.zip... May take a very long time!</code></pre>
 <pre><code>## Trying to download NC_PLOT.zip... May take a very long time!</code></pre>
@@ -185,7 +184,7 @@ fia<span class="op">::</span><span class="kw">download_fia_tables</span>(<span c
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

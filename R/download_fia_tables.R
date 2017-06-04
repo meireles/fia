@@ -1,10 +1,4 @@
-########################################
-#    Download FIA
-########################################
-
-
 devtools::use_package("RCurl")
-
 
 ########################################
 # Make filenames for download
@@ -147,11 +141,11 @@ download_fia_tables = function(table_names,
                                            table_format = table_format)
     states     = unique(file_names$file_names_dat$state)
 
-    dir.create(destination_dir, recursive = TRUE)
+    dir.create(destination_dir, recursive = TRUE, showWarnings = FALSE)
 
     if(dir_by_sate) {
         for(i in states)
-            dir.create(file.path(destination_dir, i))
+            dir.create(file.path(destination_dir, i), showWarnings = FALSE)
     }
 
     dir_files       = basename(dir(destination_dir, recursive = TRUE))

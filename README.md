@@ -1,6 +1,8 @@
 # Introduction to fia
 Jose Eduardo Meireles  
 
+The only goal of the `fia` package is to programatically download FIA data.
+
 ### Installation
  
 The easiest way to get the `fia` package is to install from the github repository.
@@ -13,7 +15,7 @@ devtools::install_github("meireles/fia")
 
 ### Usage
 
-The main goal of the `fia` package is to programatically download FIA data, which lives lives in the FIADB webpage. Use `url_fia()` to see the default FIA url.
+The fia data lives lives in the FIADB. You can see the default database url using `url_fia()`.
 
 
 ```r
@@ -39,17 +41,11 @@ tab = fia::list_available_tables()
 ```
 
 ```
-## Trying to download tables from: "https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html"
+## Trying to download tables from:
 ```
 
 ```
-## may take a while..."
-```
-
-```
-## [1] "got tables"
-## [1] "cleaned tables"
-## [1] "reshaped tables"
+## "https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html"
 ```
 
 ```r
@@ -142,16 +138,16 @@ Once you figured out what data you want to grab, all you have to do is download 
 ```r
 # Pick tables to download
 # Chosen from tab$reference_table_names and tab$data_table_names
-my_table_names =  c("REF_SPECIES",  # a reference table
-                    "PLOT")         # a plot data table
+my_table_names = c("REF_SPECIES",  # a reference table
+                   "PLOT")         # a plot data table
 
 # Pick states of interest
 # See the pssibilities in tab$data_states
-my_states     = c("NC", "MN")
+my_states = c("NC", "MN")
 
 # Alternativelly, choose all states in the dataset
 # Thus will retrieve data in tab$data_tables_states_combined
-my_states_2   = "ALL"
+my_states_2 = "ALL"
 
 # You also must provide the directory where the files will be dumped in.
 my_output_dir = "data_test/fia"
@@ -162,7 +158,8 @@ fia::download_fia_tables(table_names           = my_table_names,
                          states                = my_states,
                          destination_dir       = my_output_dir,
                          list_available_tables = tab, # returned by `list_available_tables()`
-                         table_format          = "zip")
+                         table_format          = "zip",
+                         overwrite             = TRUE)
 ```
 
 ```
