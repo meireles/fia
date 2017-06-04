@@ -9,7 +9,7 @@ License: GPL-3
 LazyData: TRUE
 Encoding: UTF-8
 Depends:
-    R (>= 3.3.2)
+    R (>= 3.4)
 Imports:
     RCurl (>= 1.95),
     XML (>= 3.98)
